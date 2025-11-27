@@ -1,66 +1,67 @@
 {% extends 'base.html' %}
-{% block title %}
-Market Page
-{% endblock %}
+{% block title %}Market{% endblock %}
+
 {% block content %}
 
-<div class="row" style="margin-top:20px; margin-left:20px">
-   <div class="col-8">
-       <h2>Available items on the Market</h2>
-       <p>Click on one of the items to start buying</p>
-       <br>
-      <table class="table table-hover table-dark">
-         <thead>
-            <tr>
-               <!-- Your Columns HERE -->
-               <th scope="col">ID</th>
-               <th scope="col">Name</th>
-               <th scope="col">Barcode</th>
-               <th scope="col">Price</th>
-               <th scope="col">Options</th>
-            </tr>
-         </thead>
-         <tbody>
-            <!-- Your rows inside the table HERE: -->
-            {% for item in items %}
-            {% include 'includes/items_modals.html' %}
-            <tr>
-               <td>{{ item.id }}</td>
-               <td>{{ item.name }}</td>
-               <td>{{ item.barcode }}</td>
-               <td>{{ item.price }}$</td>
-               <td>
-                  <button class="btn btn-outline btn-info" data-toggle="modal" data-target="#Modal-MoreInfo-{{ item.id }}">More Info</button>
-                  <button class="btn btn-outline btn-success" data-toggle="modal" data-target="#Modal-PurchaseConfirm-{{ item.id }}">Purchase this Item</button>
-               </td>
-            </tr>
-            {% endfor %}
-         </tbody>
-      </table>
-   </div>
-   <div class="col-4">
-        <h2>Owned Items</h2>
-        <p>Click on sell item to put an item back on the Market</p>
-        <br>
-        <div class="row">
-           {% for owned_item in owned_items %}
-           {% include 'includes/owned_items_modals.html' %}
-             <div class="col-md-6">
-                 <div style="margin-bottom: 5px" class="card text-center bg-dark">
-                      <div class="card-body">
-                          <h5 class="card-title">{{ owned_item.name }}</h5>
-                          <button type="button" class="btn btn-outline-danger" style="margin-bottom: 5px"
-                                  data-toggle="modal" data-target="#Modal-SellingConfirm-{{ owned_item.id }}">
-                              Sell this Item
-                          </button>
-                          <p class="card-text"><strong>
-                              This item costs {{ owned_item.price }}$
-                          </strong></p>
-                      </div>
-                  </div>
-             </div>
-           {% endfor %}
+<div class="container mt-4">
+
+    <!-- Search + Category -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <form method="GET">
+                <input type="text" name="search" class="form-control"
+                       placeholder="Search products..."
+                       value="{{ request.args.get('search', '') }}">
+            </form>
         </div>
-   </div>
+
+        <div class="col-md-4">
+            <form method="GET">
+                <select name="category" class="form-control" onchange="this.form.submit()">
+                    <option value="">All Categories</option>
+                    <option value="phones">Phones</option>
+                    <option value="laptops">Laptops</option>
+                    <option value="watch">Watches</option>
+                </select>
+            </form>
+        </div>
+    </div>
+
+    <!-- ✅ PRODUCTS GRID -->
+    <div class="row">
+
+        {% for item in items %}
+        <div class="col-md-4 mb-4">
+            <div class="card product-card">
+
+                <img src="{{ item.image or url_for('static', filename='default.png') }}"
+                     style="height:240px; width:100%; object-fit:cover; border-radius:12px 12px 0 0;">
+
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.name }}</h5>
+                    <p class="text-success font-weight-bold">{{ item.price }}$</p>
+
+                    <button class="btn btn-info btn-block modern-btn"
+                        data-toggle="modal"
+                        data-target="#info-{{ item.id }}">More Info</button>
+
+                    <button class="btn btn-success btn-block modern-btn mt-2"
+                        data-toggle="modal"
+                        data-target="#buy-{{ item.id }}">Purchase</button>
+                </div>
+            </div>
+        </div>
+
+        {% include 'includes/items_modals.html' %}
+        {% endfor %}
+
+        {% if items|length == 0 %}
+        <div class="col-12 text-center text-muted mt-4">
+            <h5>No products found.</h5>
+        </div>
+        {% endif %}
+
+    </div>
 </div>
+
 {% endblock %}

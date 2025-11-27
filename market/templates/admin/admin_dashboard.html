@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">Admin Dashboard</h3>
+    <a href="{{ url_for('admin_add_item') }}" class="btn btn-success modern-btn">+ Add Item</a>
+  </div>
+
+  <!-- Products -->
+  <div class="card product-card p-3 mb-4">
+    <h5 class="mb-3">Products</h5>
+    <div class="table-responsive">
+      <table class="table table-dark table-hover mb-0">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th style="min-width:220px;">Name</th>
+            <th>Barcode</th>
+            <th>Price</th>
+            <th>Image</th>
+            <th style="width:180px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in products %}
+          <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.name }}</td>
+            <td class="text-info">{{ item.barcode }}</td>
+            <td class="text-success font-weight-bold">{{ item.price }}$</td>
+            <td>
+              {% if item.image %}
+                <img src="{{ item.image }}" style="height:40px;width:60px;object-fit:cover;border-radius:6px;">
+              {% else %}
+                <span class="text-muted">None</span>
+              {% endif %}
+            </td>
+            <td>
+              <a href="{{ url_for('admin_edit_item', item_id=item.id) }}" class="btn btn-warning btn-sm">Edit</a>
+              <a href="{{ url_for('admin_delete_item', item_id=item.id) }}" class="btn btn-danger btn-sm"
+                 onclick="return confirm('Delete this item?')">Delete</a>
+            </td>
+          </tr>
+          {% else %}
+          <tr><td colspan="6" class="text-muted">No products yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Users -->
+  <div class="card product-card p-3">
+    <h5 class="mb-3">Users</h5>
+    <div class="table-responsive">
+      <table class="table table-dark table-hover mb-0">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Budget</th>
+            <th>Role</th>
+            <th>Purchased Items</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for u in users %}
+          <tr>
+            <td>{{ u.username }}</td>
+            <td>{{ u.email_address }}</td>
+            <td class="text-success">{{ u.budget }}$</td>
+            <td>
+              {% if u.is_admin %}
+                <span class="badge badge-warning">Admin</span>
+              {% else %}
+                <span class="badge badge-light">User</span>
+              {% endif %}
+            </td>
+            <td>
+              {% if u.items %}
+                {{ u.items|length }} item(s)
+              {% else %}
+                <span class="text-muted">None</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% else %}
+          <tr><td colspan="5" class="text-muted">No users yet.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

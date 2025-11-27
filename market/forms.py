@@ -1,34 +1,49 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, HiddenField
-from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from market.models import User
 
 
+# ---------------------------
+# ✅ Register Form
+# ---------------------------
 class RegisterForm(FlaskForm):
-    def validate_username(self, username_to_check):
-        user = User.query.filter_by(username=username_to_check.data).first()
+    username = StringField("Username", validators=[DataRequired(), Length(min=2, max=30)])
+    email_address = StringField("Email Address", validators=[DataRequired(), Email()])
+    password1 = PasswordField("Password", validators=[DataRequired(), Length(min=6)])
+    password2 = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo("password1")])
+    submit = SubmitField("Create Account")
+
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
         if user:
-            raise ValidationError('Username already exists! Please try a different username')
+            raise ValidationError("Username already exists.")
 
-    def validate_email_address(self, email_address_to_check):
-        email_address = User.query.filter_by(email_address=email_address_to_check.data).first()
-        if email_address:
-            raise ValidationError('Email Address already exists! Please try a different email address')
-
-    username = StringField(label='User Name:', validators=[Length(min=2, max=30), DataRequired()])
-    email_address = StringField(label='Email Address:', validators=[Email(), DataRequired()])
-    password1 = PasswordField(label='Password:', validators=[Length(min=6), DataRequired()])
-    password2 = PasswordField(label='Confirm Password:', validators=[EqualTo('password1'), DataRequired()])
-    submit = SubmitField(label='Create Account')
+    def validate_email_address(self, email_address):
+        email = User.query.filter_by(email_address=email_address.data).first()
+        if email:
+            raise ValidationError("Email already exists.")
 
 
+# ---------------------------
+# ✅ Login Form
+# ---------------------------
 class LoginForm(FlaskForm):
-    username = StringField(label='User Name:', validators=[DataRequired()])
-    password = PasswordField(label='Password:', validators=[DataRequired()])
-    submit = SubmitField(label='Sign in')
+    username = StringField("Username", validators=[DataRequired()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    submit = SubmitField("Login")
 
+
+
+# ---------------------------
+# ✅ Purchase Form (simple, only submit)
+# ---------------------------
 class PurchaseItemForm(FlaskForm):
-    submit = SubmitField(label='Purchase Item!')
+    submit = SubmitField("Purchase")
 
+
+# ---------------------------
+# ✅ Sell Form (simple, only submit)
+# ---------------------------
 class SellItemForm(FlaskForm):
-    submit = SubmitField(label='Sell Item!')
+    submit = SubmitField("Sell")

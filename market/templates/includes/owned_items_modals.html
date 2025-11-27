@@ -42,4 +42,28 @@
       </div>
     </div>
   </div>
+</div>{# Sell Confirm Modal for each owned item #}
+<div class="modal fade" id="Modal-SellingConfirm-{{ owned_item.id }}" tabindex="-1" role="dialog" aria-labelledby="SellLabel-{{ owned_item.id }}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content bg-dark text-light">
+      <div class="modal-header">
+        <h5 class="modal-title" id="SellLabel-{{ owned_item.id }}">Sell Confirmation</h5>
+        <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Sell <strong>{{ owned_item.name }}</strong> back to the market for
+        <strong class="text-success">{{ owned_item.price }}$</strong>?
+      </div>
+      <div class="modal-footer">
+        <form method="POST">
+            {{ selling_form.hidden_tag() }}
+            <input id="sold_item" name="sold_item" type="hidden" value="{{ owned_item.name }}">
+            <button class="btn btn-danger">Yes, Sell</button>
+        </form>
+        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
 </div>

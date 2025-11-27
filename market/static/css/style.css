@@ -1,0 +1,86 @@
+/* General Modern Look */
+.modern-body {
+    background: #0f0f0f;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Navbar */
+.modern-navbar {
+    background: rgba(30, 30, 30, 0.95);
+    padding: 15px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.4);
+    backdrop-filter: blur(6px);
+}
+
+.modern-logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* Links */
+.nav-modern-link {
+    font-size: 15px;
+    margin-right: 18px;
+    transition: .2s;
+}
+
+.nav-modern-link:hover {
+    color: #0ddfff !important;
+}
+
+/* Buttons */
+.modern-btn {
+    padding: 8px 18px;
+    border-radius: 10px;
+    transition: .2s;
+}
+
+.modern-btn:hover {
+    transform: translateY(-3px);
+}
+
+/* Alerts */
+.modern-alert {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: #fff;
+    margin-top: 10px;
+    backdrop-filter: blur(5px);
+}
+
+/* Product Cards */
+.product-card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 18px;
+    padding-bottom: 15px;
+    transition: .2s;
+    box-shadow: 0 4px 18px rgba(0,0,0,.35);
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,.65);
+}
+
+/* Buttons on cards */
+.card-btn {
+    padding: 10px;
+    width: 100%;
+    border-radius: 12px;
+    font-size: 15px;
+    margin-top: 5px;
+    transition: .2s;
+}
+
+.card-btn:hover {
+    transform: translateY(-3px);
+}
+
+/* Modals */
+.modal-content {
+    background: rgba(20,20,20,0.9);
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0,0,0,.5);
+    backdrop-filter: blur(10px);
+}
